@@ -1,0 +1,6 @@
+module ListManager{
+	interface Manager{
+		string add (in string client, in string fileName);
+		string remove (in string client);
+	};
+};
