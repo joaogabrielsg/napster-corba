@@ -21,7 +21,7 @@ public class ClientsFiles {
 
     @Override
     public String toString() {
-        String outputString = "----------" + name.toString() + "----------" + "\n";
+        String outputString = "----------" + name + "----------" + "\n";
         for (String file : files) {
             outputString += "=> " + file + "\n";
         }

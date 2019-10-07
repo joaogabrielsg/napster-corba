@@ -36,6 +36,10 @@ public class ManagerImpl extends ManagerPOA{
         });
     }
 
+    public String generateNewClientName(){
+        return "Client" + String.format("%d", files.size() + 1);
+    }
+
     public void printList() {
         files.forEach(file -> {
             System.out.println(file.toString());

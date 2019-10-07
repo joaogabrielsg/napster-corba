@@ -4,6 +4,7 @@ module ListManager{
 		void removeClient (in string client);
 		void addFileToClient (in string client, in string fileName);
 		void removeFileFromClient (in string client, in string fileName);
+		string generateNewClientName ();
 		void printList ();
 	};
 };
