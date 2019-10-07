@@ -1,6 +1,9 @@
 module ListManager{
 	interface Manager{
-		string add (in string client, in string fileName);
-		string remove (in string client);
+		void addClient (in string client);
+		void removeClient (in string client);
+		void addFileToClient (in string client, in string fileName);
+		void removeFileFromClient (in string client, in string fileName);
+		void printList ();
 	};
 };

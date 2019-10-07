@@ -1,14 +1,44 @@
 package Adapter;
 
 import ListManager.*;
+import Objects.*;
+import java.util.*;
 
 public class ManagerImpl extends ManagerPOA{
-    public String add(String client, String fileName){
-        System.out.println(client);
-        System.out.println(fileName);
-        return "Arquivo adicionado";
+    public List<ClientsFiles> files = new ArrayList<ClientsFiles>();
+
+    public void addClient(String client){
+        ClientsFiles clientsFiles = new ClientsFiles(client);
+        files.add(clientsFiles);
     }
-    public String remove(String client){
-        return "Cliente removido";
+
+    public void removeClient(String client){
+        for (int i = 0; i < files.size(); i++){
+            if (files.get(i).name.equals(client)){
+                files.remove(i);
+            }
+        }
+    }
+
+    public void addFileToClient(String client, String fileName){
+        files.forEach(file -> {
+            if (file.name.equals(client)){
+                file.addFile(fileName);
+            }
+        });
+    }
+
+    public void removeFileFromClient(String client, String fileName){
+        files.forEach(file -> {
+            if (file.name.equals(client)){
+                file.removeFile(fileName);
+            }
+        });
+    }
+
+    public void printList() {
+        files.forEach(file -> {
+            System.out.println(file.toString());
+        });
     }
 }
