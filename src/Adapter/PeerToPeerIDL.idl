@@ -1,0 +1,5 @@
+module PeerToPeer{
+	interface File{
+		string download (in string fileName);
+	};
+};

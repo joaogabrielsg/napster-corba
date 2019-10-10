@@ -3,6 +3,7 @@ package Adapter;
 import ListManager.*;
 import Objects.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ManagerImpl extends ManagerPOA{
     public List<ClientsFiles> files = new ArrayList<ClientsFiles>();
@@ -34,6 +35,16 @@ public class ManagerImpl extends ManagerPOA{
                 file.removeFile(fileName);
             }
         });
+    }
+
+    public String clientWhoHasTheFile(String fileName){
+        AtomicReference<String> clientNameWhoHasTheFile = new AtomicReference<>("");
+        files.forEach(file -> {
+            if (file.hasFile(fileName)){
+                clientNameWhoHasTheFile.set(file.name);
+            }
+        });
+        return clientNameWhoHasTheFile.get();
     }
 
     public String generateNewClientName(){
