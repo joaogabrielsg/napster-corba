@@ -2,6 +2,7 @@ package Service;
 import Adapter.*;
 import ListManager.*;
 import PeerToPeer.File;
+import PeerToPeer.FileHelper;
 import org.omg.CosNaming.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
@@ -89,8 +90,8 @@ public class Corba{
     private void createFileObjectReference(String clientName){
         try {
             NameComponent[] name = {new NameComponent(clientName,"Exemplo")};
-            org.omg.CORBA.Object objRef =  this.naming.resolve(name);
-            this.manager = ManagerHelper.narrow(objRef);
+            org.omg.CORBA.Object objRef =  naming.resolve(name);
+            file = FileHelper.narrow(objRef);
         } catch (Exception ex) {
             System.out.println("Erro ao criar a referencia para o File");
             ex.printStackTrace();
@@ -99,7 +100,7 @@ public class Corba{
 
     public File getFileObjectReference(String clientName){
         this.createFileObjectReference(clientName);
-        return this.file;
+        return file;
     }
 
 

@@ -1,5 +1,9 @@
 import Service.*;
 import ListManager.*;
+import PeerToPeer.*;
+
+import java.io.*;
+import java.io.PrintStream;
 import java.util.Scanner;
 import java.io.File;
 import java.util.ArrayList;
@@ -29,7 +33,6 @@ public class Client{
         List<String> result = new ArrayList<>();
 
         search(folder, result);
-        System.out.println(result.size());
         for (String s : result) {
             manager.addFileToClient(clientName, s);
         }
@@ -55,10 +58,50 @@ public class Client{
         System.out.println("s - Sair");
     }
 
-    public void menuOptions(String input){
+    public void menuOptions(String input, String args[]) throws FileNotFoundException {
         switch (input){
             case "p":
-                manager.printList();
+//                manager.printList();
+                System.out.println(manager.clientWhoHasTheFile("nomes.txt"));
+                break;
+            case "r":
+                Corba corba = new Corba(args);
+                String clientName = manager.clientWhoHasTheFile("nomes.txt");
+                PeerToPeer.File fileRef = corba.getFileObjectReference(clientName);
+
+
+                byte data[] = fileRef.download("nomes.txt");
+                FileOutputStream fn = new FileOutputStream("nomes.txt");
+                BufferedOutputStream output = new BufferedOutputStream(fn);
+                System.out.println(data[0]);
+                try {
+                    output.write(data, 0, data.length);
+                    output.flush();
+                    output.close();
+
+                } catch (IOException e) {
+                    System.out.println("Não foi possível criar o arquivo de output");
+                }
+
+//                java.io.File file = new java.io.File("./Public/nomes.txt");
+
+
+//                System.out.println(fileRef.download("nomes.txt"));
+
+//                FileOutputStream fout= null;
+//                try {
+//                    fout = new FileOutputStream("./Download/file.txt");
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//                //Write the file contents to the new file created
+//                new PrintStream(fout).println (fileRef.download("nomes.txt"));
+//                try {
+//                    fout.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+////                System.out.println(file);
                 break;
         }
     }
@@ -67,6 +110,8 @@ public class Client{
         Client client = new Client(args);
         Scanner scanner = new Scanner(System.in);
         Boolean openMenu = true;
+
+        System.out.println(client.clientName);
 
         ClientServerToSendFile clientServer = new ClientServerToSendFile(client.clientName);
         clientServer.start();
@@ -78,7 +123,11 @@ public class Client{
             if (input.equals("s")){
                 openMenu = false;
             } else {
-                client.menuOptions(input);
+                try {
+                    client.menuOptions(input, args);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

@@ -1,31 +1,37 @@
 package Adapter;
 
 import PeerToPeer.*;
+import PeerToPeer.File;
+
 import java.io.*;
 
 public class FileImpl extends FilePOA {
 
-    public String download(String fileName){
+    public byte[] download(String fileName){
 
         int i;
         String sValue="";
+
+
+        java.io.File file = new java.io.File("./Public/nomes.txt");
+        byte buffer[] = new byte[(int) file.length()];
+
         try
         {
-            FileInputStream fn= new FileInputStream(fileName);
+            FileInputStream fn= new FileInputStream("./Public/nomes.txt");
+            BufferedInputStream input = new BufferedInputStream(fn);
 
-            do
-            {
-                i = fn.read();
-                if(i!= -1)
-                    sValue=sValue+((char)i);
-            } while(i != -1);
-            fn.close();
+            input.read(buffer, 0, buffer.length);
+            input.close();
+
+            //transformar em um array de bytes e não em uma string, e retornar esse array de bytes.
         }
         catch(FileNotFoundException e)
         {
             System.out.println("File Error");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch(Exception e){System.exit(0);}
-        return sValue;
+        return buffer;
     }
 }

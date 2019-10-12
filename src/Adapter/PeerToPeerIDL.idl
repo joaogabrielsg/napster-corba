@@ -1,5 +1,6 @@
 module PeerToPeer{
 	interface File{
-		string download (in string fileName);
+	typedef sequence<octet> data;
+		data download (in string fileName);
 	};
 };
