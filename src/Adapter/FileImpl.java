@@ -13,18 +13,16 @@ public class FileImpl extends FilePOA {
         String sValue="";
 
 
-        java.io.File file = new java.io.File("./Public/nomes.txt");
+        java.io.File file = new java.io.File(String.format("./Public/%s", fileName));
         byte buffer[] = new byte[(int) file.length()];
 
         try
         {
-            FileInputStream fn= new FileInputStream("./Public/nomes.txt");
+            FileInputStream fn= new FileInputStream(String.format("./Public/%s", fileName));
             BufferedInputStream input = new BufferedInputStream(fn);
 
             input.read(buffer, 0, buffer.length);
             input.close();
-
-            //transformar em um array de bytes e não em uma string, e retornar esse array de bytes.
         }
         catch(FileNotFoundException e)
         {

@@ -12,10 +12,12 @@ import java.util.List;
 public class Client{
     Manager manager;
     String clientName;
+    String publicPath;
 
     private Client(String args[]){
         Corba corba = new Corba(args);
         manager = corba.getManagerObjectReference();
+        publicPath = "./Public";
 
         clientName = manager.generateNewClientName();
 
@@ -29,7 +31,7 @@ public class Client{
     }
 
     public void getAllFiles(){
-        final File folder = new File("./Public");
+        final File folder = new File(publicPath);
         List<String> result = new ArrayList<>();
 
         search(folder, result);
@@ -54,54 +56,49 @@ public class Client{
     public void printMenu(){
         System.out.println("-----------Napster------------");
         System.out.println("p - Printar lista de arquivos");
-        System.out.println("r - Procurar por um arquivo");
+        System.out.println("b - Baixar um arquivo");
+        System.out.println("m - Mudar a pasta compartilhada");
         System.out.println("s - Sair");
+    }
+
+    public static void downloadFile(String clientName, String fileName, String args[]){
+        Corba corba = new Corba(args);
+        PeerToPeer.File fileRef = corba.getFileObjectReference(clientName);
+
+
+        byte data[] = fileRef.download(fileName);
+        FileOutputStream fn = null;
+        try {
+            fn = new FileOutputStream(fileName);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        BufferedOutputStream output = new BufferedOutputStream(fn);
+        try {
+            output.write(data, 0, data.length);
+            output.flush();
+            output.close();
+
+        } catch (IOException e) {
+            System.out.println("Não foi possível criar o arquivo de output");
+        }
     }
 
     public void menuOptions(String input, String args[]) throws FileNotFoundException {
         switch (input){
             case "p":
-//                manager.printList();
-                System.out.println(manager.clientWhoHasTheFile("nomes.txt"));
+                manager.printList();
                 break;
             case "r":
-                Corba corba = new Corba(args);
-                String clientName = manager.clientWhoHasTheFile("nomes.txt");
-                PeerToPeer.File fileRef = corba.getFileObjectReference(clientName);
+                Scanner scanner = new Scanner(System.in);
 
+                System.out.print("Nome do arquivo para baixar: ");
+                String fileName = scanner.next();
+                String clientName = manager.clientWhoHasTheFile(fileName);
 
-                byte data[] = fileRef.download("nomes.txt");
-                FileOutputStream fn = new FileOutputStream("nomes.txt");
-                BufferedOutputStream output = new BufferedOutputStream(fn);
-                System.out.println(data[0]);
-                try {
-                    output.write(data, 0, data.length);
-                    output.flush();
-                    output.close();
-
-                } catch (IOException e) {
-                    System.out.println("Não foi possível criar o arquivo de output");
-                }
-
-//                java.io.File file = new java.io.File("./Public/nomes.txt");
-
-
-//                System.out.println(fileRef.download("nomes.txt"));
-
-//                FileOutputStream fout= null;
-//                try {
-//                    fout = new FileOutputStream("./Download/file.txt");
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                }
-//                //Write the file contents to the new file created
-//                new PrintStream(fout).println (fileRef.download("nomes.txt"));
-//                try {
-//                    fout.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-////                System.out.println(file);
+                Client.downloadFile(clientName, fileName, args);
+                break;
+            case "m":
                 break;
         }
     }
