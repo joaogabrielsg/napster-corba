@@ -6,6 +6,6 @@ module ListManager{
 		void removeFileFromClient (in string client, in string fileName);
 		string clientWhoHasTheFile(in string fileName);
 		string generateNewClientName ();
-		void printList ();
+		string printList ();
 	};
 };

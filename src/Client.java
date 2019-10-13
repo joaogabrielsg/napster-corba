@@ -79,6 +79,8 @@ public class Client{
             output.flush();
             output.close();
 
+            System.out.println("Arquivo baixado com sucesso");
+
         } catch (IOException e) {
             System.out.println("Não foi possível criar o arquivo de output");
         }
@@ -87,7 +89,7 @@ public class Client{
     public void menuOptions(String input, String args[]) throws FileNotFoundException {
         switch (input){
             case "p":
-                manager.printList();
+                System.out.println(manager.printList());
                 break;
             case "r":
                 Scanner scanner = new Scanner(System.in);
