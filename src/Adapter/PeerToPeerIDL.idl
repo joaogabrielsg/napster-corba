@@ -2,5 +2,7 @@ module PeerToPeer{
 	interface File{
 	typedef sequence<octet> data;
 		data download (in string fileName);
+		void changePublicPath(in string newPathName);
+		string getPublicPath();
 	};
 };
