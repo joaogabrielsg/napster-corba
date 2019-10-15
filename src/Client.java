@@ -86,6 +86,7 @@ public class Client{
         System.out.println("p - Printar lista de arquivos");
         System.out.println("b - Baixar um arquivo");
         System.out.println("m - Mudar a pasta compartilhada");
+        System.out.println("e - Pesquisar pelas substrings dos nomes dos arquivos ou pelas extensões");
         System.out.println("s - Sair");
     }
 
@@ -148,6 +149,14 @@ public class Client{
                 String newPublicPathName = scanner.next();
 
                 changePublicPath(newPublicPathName);
+                break;
+            case "e":
+                System.out.println("");
+                System.out.print("Buscar por:");
+                String subString = scanner.next();
+                System.out.println("");
+                System.out.println("Arquivos encontrados:");
+                System.out.println(manager.printFilesHasSubString(subString));
                 break;
         }
     }

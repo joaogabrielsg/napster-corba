@@ -61,6 +61,18 @@ public class ManagerImpl extends ManagerPOA{
         return "Client" + String.format("%d", files.size() + 1);
     }
 
+    public String printFilesHasSubString(String subString) {
+        final String[] outputString = {""};
+        files.forEach(file -> {
+            String[] filesWithSubString = file.filesWithSubString(subString);
+            for (int i = 0; i < filesWithSubString.length; i++){
+                outputString[0] += file.name + " - " + filesWithSubString[i] + "\n";
+            }
+        });
+
+        return outputString[0];
+    }
+
     public String printList() {
         final String[] outputString = {""};
         files.forEach(file -> {

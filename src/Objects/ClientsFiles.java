@@ -30,6 +30,16 @@ public class ClientsFiles {
         return clientHasFile.get();
     }
 
+    public String[] filesWithSubString(String subString){
+        List<String> result = new ArrayList<>();
+            files.forEach(file -> {
+                if (file.contains(subString)){
+                    result.add(file);
+                }
+            });
+        return result.toArray(new String[0]);
+    }
+
     @Override
     public String toString() {
         String outputString = "----------" + name + "----------" + "\n";

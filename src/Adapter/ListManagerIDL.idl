@@ -8,6 +8,7 @@ module ListManager{
 		string clientWhoHasTheFile(in string fileName);
 		stringList clientsWhoHasTheFile(in string fileName);
 		string generateNewClientName ();
+		string printFilesHasSubString(in string subString);
 		string printList ();
 	};
 };
