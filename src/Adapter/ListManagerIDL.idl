@@ -1,10 +1,12 @@
 module ListManager{
 	interface Manager{
+	typedef sequence<string> stringList;
 		void addClient (in string client);
 		void removeClient (in string client);
 		void addFileToClient (in string client, in string fileName);
 		void removeFileFromClient (in string client, in string fileName);
 		string clientWhoHasTheFile(in string fileName);
+		stringList clientsWhoHasTheFile(in string fileName);
 		string generateNewClientName ();
 		string printList ();
 	};

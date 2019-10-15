@@ -47,6 +47,16 @@ public class ManagerImpl extends ManagerPOA{
         return clientNameWhoHasTheFile.get();
     }
 
+    public String[] clientsWhoHasTheFile(String fileName){
+        List<String> clients = new ArrayList<>();
+        files.forEach(file -> {
+            if (file.hasFile(fileName)){
+                clients.add(file.name);
+            }
+        });
+        return clients.toArray(new String[0]);
+    }
+
     public String generateNewClientName(){
         return "Client" + String.format("%d", files.size() + 1);
     }

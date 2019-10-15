@@ -3,6 +3,7 @@ import ListManager.*;
 import PeerToPeer.*;
 
 import java.io.*;
+import java.util.*;
 import java.io.PrintStream;
 import java.util.Scanner;
 import java.io.File;
@@ -117,16 +118,32 @@ public class Client{
         Scanner scanner = new Scanner(System.in);
         switch (input){
             case "p":
+                System.out.println("");
                 System.out.println(manager.printList());
                 break;
             case "b":
+                System.out.println("");
                 System.out.print("Nome do arquivo para baixar: ");
                 String fileName = scanner.next();
-                String clientName = manager.clientWhoHasTheFile(fileName);
+                String[] clientsName = manager.clientsWhoHasTheFile(fileName);
 
-                Client.downloadFile(clientName, fileName);
+                if(clientsName.length == 0){
+                    System.out.println("Nenhum arquivo encontrado.");
+                } else {
+                    System.out.println("Clientes que possuem o arquivo:");
+
+                    for (int i = 0; i < clientsName.length; i++){
+                        System.out.println(clientsName[i]);
+                    }
+
+                    System.out.print("Escolha o cliente para baixar o arquivo:");
+                    String clientName = scanner.next();
+
+                    Client.downloadFile(clientName, fileName);
+                }
                 break;
             case "m":
+                System.out.println("");
                 System.out.print("Caminho da pasta compartilhada: ");
                 String newPublicPathName = scanner.next();
 
