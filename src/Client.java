@@ -90,15 +90,15 @@ public class Client{
         System.out.println("s - Sair");
     }
 
-    public static void downloadFile(String clientName, String fileName){
+    public void downloadFile(String clientName, String fileName){
+        System.out.println("Arquivo " + fileName + " esta sendo baixado");
         Corba corba = new Corba(new String[0]);
         PeerToPeer.File fileRef = corba.getFileObjectReference(clientName);
-
 
         byte[] data = fileRef.download(fileName);
         FileOutputStream fn = null;
         try {
-            fn = new FileOutputStream(fileName);
+            fn = new FileOutputStream( String.format("%s/%s", getPublicPath(), fileName));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -107,6 +107,8 @@ public class Client{
             output.write(data, 0, data.length);
             output.flush();
             output.close();
+            removeAllFiles();
+            getAllFiles();
 
             System.out.println("Arquivo baixado com sucesso");
 
@@ -129,18 +131,21 @@ public class Client{
                 String[] clientsName = manager.clientsWhoHasTheFile(fileName);
 
                 if(clientsName.length == 0){
+                    System.out.println("");
                     System.out.println("Nenhum arquivo encontrado.");
                 } else {
+                    System.out.println("");
                     System.out.println("Clientes que possuem o arquivo:");
 
                     for (int i = 0; i < clientsName.length; i++){
                         System.out.println(clientsName[i]);
                     }
 
+                    System.out.println("");
                     System.out.print("Escolha o cliente para baixar o arquivo:");
                     String clientName = scanner.next();
 
-                    Client.downloadFile(clientName, fileName);
+                    downloadFile(clientName, fileName);
                 }
                 break;
             case "m":
